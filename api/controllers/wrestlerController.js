@@ -58,10 +58,18 @@ exports.read_a_wrestler = function(req, res) {
 
 exports.update_a_wrestler = function(req, res) {
   Wrestler.findOneAndUpdate({_id: req.params.wrestlerId}, req.body, {new: true}, function(err, wrestler) {
-    if (err)
-	  res.send(err);
-	res.status(202);
-    res.json(wrestler);
+    if (err){
+		res.status(500);
+		res.send(err);
+	  }
+	  else if(!wrestler){
+		res.status(404)
+		res.json({message: "wrestler does not exist"});
+	  }
+	  else {
+		res.status(202);
+		res.json(wrestler);
+	}
   });
 };
 
