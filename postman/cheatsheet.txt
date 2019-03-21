@@ -1,0 +1,28 @@
+Wrestling API URL:
+http://localhost:3000/wrestlers
+
+Pre-request cript for creating some random names and birthdates:
+//Create a random name
+var wrestlerNames1 = ['Green','Blue','Blazing','Flying','Steel','Iron'];
+var wrestlerNames2 = ['Cowboy','Avenger','Hornet','Thunder','Spider','Hero','Machine','Tornado','Inferno'];
+pm.environment.set
+("randomWrestlerName", "The "+wrestlerNames1[_.random(wrestlerNames1.length-1)]+" "+wrestlerNames2[_.random(wrestlerNames2.length-1)]);
+
+//A random real name
+var names = ['John','Susan','Shrek']
+pm.environment.set("randomName",names[_.random(names.length-1)]);
+
+//Create a random date
+const moment = require("moment");
+var birthDate = moment().subtract("years",_.random(20,60));
+pm.environment.set("randomBirthDate",birthDate.format("DD MMM, YYYY"));
+
+Json blob:
+{
+    "name": "",
+    "realname": "",
+    "birthdate": "01 Jan, 2000",
+    "specialmove": "",
+    "hometown": "Auckland, New Zealand",
+    "bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+}
