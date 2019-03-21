@@ -1,0 +1,324 @@
+{
+	"info": {
+		"_postman_id": "1d61fdaa-79f8-4dd1-a430-c6bde02f3b62",
+		"name": "A Demo Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get all Wrestlers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/wrestlers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"wrestlers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a Wrestler",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "987c4ba4-f6ef-4c26-85c7-e712e9bc1b38",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"id\", jsonData._id);",
+							"",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Wrestler name is correct\", function () {",
+							"    pm.expect(jsonData.name).to.eql(pm.environment.get(\"randomWrestlerName\"));",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "7f3d5952-b227-4d5e-b266-b239cdeced87",
+						"exec": [
+							"//Create a random name",
+							"var wrestlerNames1 = ['Green','Blue','Blazing','Flying','Steel','Iron'];",
+							"var wrestlerNames2 = ['Cowboy','Avenger','Hornet','Thunder','Spider','Hero','Machine','Tornado','Inferno'];",
+							"pm.environment.set",
+							"(\"randomWrestlerName\", \"The \"+wrestlerNames1[_.random(wrestlerNames1.length-1)]+\" \"+wrestlerNames2[_.random(wrestlerNames2.length-1)]);",
+							"",
+							"//Create a random date",
+							"const moment = require(\"moment\");",
+							"var birthDate = moment().subtract(\"years\",_.random(20,60));",
+							"pm.environment.set(\"randomBirthDate\",birthDate.format(\"DD MMM, YYYY\"));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"{{randomWrestlerName}}\",\n    \"realname\": \"Test Name\",\n    \"birthdate\": \"{{randomBirthDate}}\",\n    \"specialmove\": \"Test Move\",\n    \"hometown\": \"Test Hometown\",\n    \"bio\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/wrestlers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"wrestlers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Wrestler by Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ea40afb1-dafd-4546-af74-8a09e765bff8",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"id\", jsonData._id);",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Wrestler name is correct\", function () {",
+							"    pm.expect(jsonData.name).to.eql(pm.environment.get(\"randomWrestlerName\"));",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/wrestlers/{{id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"wrestlers",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update a Wrestler",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "3ab82d07-6b0d-4756-b889-045382c71ac0",
+						"exec": [
+							"//Create a random name",
+							"var wrestlerName = \"Updated \"+pm.environment.get(\"randomWrestlerName\")",
+							"pm.environment.set(\"randomWrestlerName\",wrestlerName);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "64b99b7d-3add-4697-abe0-061554041e6c",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Status code is 202\", function () {",
+							"    pm.response.to.have.status(202);",
+							"});",
+							"",
+							"pm.test(\"Wrestler name is correct\", function () {",
+							"    pm.expect(jsonData.name).to.eql(pm.environment.get(\"randomWrestlerName\"));",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"{{randomWrestlerName}}\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/wrestlers/{{id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"wrestlers",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a Wrestler",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "65c8dfdf-b09a-4212-a889-b250aff34775",
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/wrestlers/{{id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"wrestlers",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Wrestler by Id (Not Found)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7d62d272-0c08-4dc3-90dd-a6fda9e7d9e9",
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/wrestlers/{{id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"wrestlers",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a Wrestler (Not Found)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "59af2b93-68b4-41c9-9512-03e933d4a50c",
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/wrestlers/{{id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"wrestlers",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
