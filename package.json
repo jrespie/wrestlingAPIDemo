@@ -10,12 +10,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^1.18.10"
+    "nodemon": "^1.19.4"
   },
   "dependencies": {
     "cors": "^2.8.5",
-    "ejs": "^2.6.1",
-    "express": "^4.16.4",
-    "mongoose": "^5.4.15"
+    "ejs": "^2.7.4",
+    "express": "^4.17.1",
+    "mongoose": "^5.8.4"
   }
 }
